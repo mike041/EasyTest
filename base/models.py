@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -11,6 +12,7 @@ class Sign(models.Model):
     def __str__(self):
         return self.sign_name
 
+
 class Project(models.Model):
     prj_id = models.AutoField(primary_key=True, null=False)
     prj_name = models.CharField(max_length=50)
@@ -19,7 +21,6 @@ class Project(models.Model):
 
     def __str__(self):
         return self.prj_name
-
 
 
 class Environment(models.Model):
@@ -32,7 +33,6 @@ class Environment(models.Model):
 
     def __str__(self):
         return self.env_name
-
 
 
 class Interface(models.Model):
@@ -52,6 +52,7 @@ class Interface(models.Model):
     def __str__(self):
         return self.if_name
 
+
 class Case(models.Model):
     case_id = models.AutoField(primary_key=True, null=False)
     case_name = models.CharField(max_length=50)
@@ -61,6 +62,7 @@ class Case(models.Model):
 
     def __str__(self):
         return self.case_name
+
 
 class Plan(models.Model):
     plan_id = models.AutoField(primary_key=True, null=False)
@@ -72,6 +74,7 @@ class Plan(models.Model):
 
     def __str__(self):
         return self.plan_name
+
 
 class Report(models.Model):
     report_id = models.AutoField(primary_key=True, null=False)

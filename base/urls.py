@@ -1,4 +1,4 @@
-"""EasyTest URL Configuration
+"""xsolla URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
@@ -14,37 +14,37 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.conf.urls import url
+from django.urls import path
 from base.views import *
+from base.xsolla import *
 
 urlpatterns = [
+    path(r'xsolla/', xsolla),
+    path(r'project/', project_index),
+    path(r'project_add/', project_add),
+    path(r'project_update/', project_update),
+    path(r'project_delete/', project_delete),
 
-    url(r'/project/', project_index),
-    url(r'/project_add/', project_add),
-    url(r'/project_update/', project_update),
-    url(r'/project_delete/', project_delete),
+    path(r'sign/', sign_index),
+    path(r'sign_add/', sign_add),
+    path(r'sign_update/', sign_update),
 
-    url(r'/sign/', sign_index),
-    url(r'/sign_add/', sign_add),
-    url(r'/sign_update/', sign_update),
+    path(r'env/', env_index),
+    path(r'env_add/', env_add),
+    path(r'env_update/', env_update),
 
-    url(r'/env/', env_index),
-    url(r'/env_add/', env_add),
-    url(r'/env_update/', env_update),
+    path(r'interface/', interface_index),
+    path(r'interface_add/', interface_add),
 
-    url(r'/interface/', interface_index),
-    url(r'/interface_add/', interface_add),
+    path(r'case/', case_index),
+    path(r'case_add/', case_add),
+    path(r'case_run/', case_run),
 
-    url(r'/case/', case_index),
-    url(r'/case_add/', case_add),
-    url(r'/case_run/', case_run),
+    path(r'plan/', plan_index),
+    path(r'plan_add/', plan_add),
+    path(r'plan_run/', plan_run),
 
-    url(r'/plan/', plan_index),
-    url(r'/plan_add/', plan_add),
-    url(r'/plan_run/', plan_run),
+    path(r'report/', report_index),
 
-    url(r'/report/', report_index),
-
-    url(r'/findata/', findata)
+    path(r'findata/', findata)
 ]
-

@@ -2,13 +2,13 @@
 # coding:utf-8
 __author__ = 'wsy'
 
-
 from base.models import Project, Sign, Environment, Interface, Case
 import requests
 import hashlib
 import re
 import json
 from lib.signtype import get_sign
+
 
 class Execute():
     def __init__(self, case_id, env_id):
@@ -17,7 +17,6 @@ class Execute():
         self.prj_id, self.env_url, self.private_key = self.get_env(self.env_id)
         self.sign_type = self.get_sign(self.prj_id)
 
-
         self.extract_dict = {}
 
         self.glo_var = {}
@@ -25,6 +24,7 @@ class Execute():
 
     def run_case(self):
         case = Case.objects.get(case_id=self.case_id)
+        print('case.content============' + str(case.content))
         step_list = eval(case.content)
         case_run = {"case_id": self.case_id, "case_name": case.case_name, "result": "pass"}
         case_step_list = []
@@ -40,9 +40,6 @@ class Execute():
                 break
         case_run["step_list"] = case_step_list
         return case_run
-
-
-
 
     def step(self, step_content):
         if_id = step_content["if_id"]
@@ -69,7 +66,7 @@ class Execute():
 
         try:
             res = self.call_interface(if_dict["method"], if_dict["url"], if_dict["header"],
-                                                 if_dict["body"], if_dict["data_type"])
+                                      if_dict["body"], if_dict["data_type"])
             if_dict["res_status_code"] = res.status_code
             if_dict["res_content"] = res.text
         except requests.RequestException as e:
@@ -80,13 +77,12 @@ class Execute():
         if step_content["extract"]:
             self.get_extract(step_content["extract"], if_dict["res_content"])
         if step_content["validators"]:
-            if_dict["result"], if_dict["msg"] = self.validators_result(step_content["validators"], if_dict["res_content"])
+            if_dict["result"], if_dict["msg"] = self.validators_result(step_content["validators"],
+                                                                       if_dict["res_content"])
         else:
             if_dict["result"] = "pass"
             if_dict["msg"] = {}
         return if_dict
-
-
 
     # 验证结果
     def validators_result(self, validators_list, res):
@@ -111,9 +107,6 @@ class Execute():
             key_value = self.get_param(key, res)
             self.extract_dict[key] = key_value
 
-
-
-
     # 替换内容中的变量, 返回字符串型
     def replace_var(self, content, var_name, var_value):
         if not isinstance(content, str):
@@ -121,8 +114,6 @@ class Execute():
         var_name = "$" + var_name
         content = content.replace(str(var_name), str(var_value))
         return content
-
-
 
     # 从内容中提取所有变量名, 变量格式为$variable,返回变量名list
     def extract_variables(self, content):
@@ -179,8 +170,6 @@ class Execute():
                             pass
         return default
 
-
-
     # 获取测试环境
     def get_env(self, env_id):
         env = Environment.objects.get(env_id=env_id)
@@ -196,7 +185,6 @@ class Execute():
         sign_type = prj.sign.sign_id
         return sign_type
 
-
     # 发送请求
     def call_interface(self, method, url, header, data, content_type='json'):
         print(url, header, data)
@@ -209,4 +197,3 @@ class Execute():
             res = requests.get(url=url, params=data, headers=header, verify=False)
         print(res.status_code, res.text)
         return res
-

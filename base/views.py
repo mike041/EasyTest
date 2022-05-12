@@ -6,8 +6,9 @@ from django.core import serializers
 from lib.execute import Execute
 import time
 import json
-# Create your views here.
 
+
+# Create your views here.
 
 
 # 项目增删改查
@@ -32,6 +33,7 @@ def project_add(request):
     sign_list = Sign.objects.all()
     return render(request, "base/project/add.html", {"sign_list": sign_list})
 
+
 def project_update(request):
     if request.method == 'POST':
         prj_id = request.POST['prj_id']
@@ -44,12 +46,13 @@ def project_update(request):
             description = request.POST['description']
             sign_id = request.POST['sign_id']
             sign = Sign.objects.get(sign_id=sign_id)
-            Project.objects.filter(prj_id=prj_id).update(prj_name=prj_name, description=description,sign=sign)
+            Project.objects.filter(prj_id=prj_id).update(prj_name=prj_name, description=description, sign=sign)
             return HttpResponseRedirect("/base/project/")
     prj_id = request.GET['prj_id']
     prj = Project.objects.get(prj_id=prj_id)
     sign_list = Sign.objects.all()
     return render(request, "base/project/update.html", {"prj": prj, "sign_list": sign_list})
+
 
 def project_delete(request):
     if request.method == 'GET':
@@ -58,11 +61,11 @@ def project_delete(request):
         return HttpResponseRedirect("base/project/")
 
 
-
 # 加密方式增删改查
 def sign_index(request):
     sign_list = Sign.objects.all()
     return render(request, "system/sign_index.html", {"sign_list": sign_list})
+
 
 def sign_add(request):
     if request.method == 'POST':
@@ -72,6 +75,7 @@ def sign_add(request):
         sign.save()
         return HttpResponseRedirect("/base/sign/")
     return render(request, "system/sign_add.html")
+
 
 # 更新加密方式
 def sign_update(request):
@@ -85,10 +89,12 @@ def sign_update(request):
     sign = Sign.objects.get(sign_id=sign_id)
     return render(request, "system/sign_update.html", {"sign": sign})
 
+
 # 测试环境增删改查
 def env_index(request):
     env_list = Environment.objects.all()
     return render(request, "base/env/index.html", {"env_list": env_list})
+
 
 def env_add(request):
     if request.method == 'POST':
@@ -99,11 +105,13 @@ def env_add(request):
         private_key = request.POST['private_key']
         description = request.POST['description']
         env = Environment(env_name=env_name, url=url, project=project,
-                           private_key=private_key, description=description)
+                          private_key=private_key, description=description)
         env.save()
         return HttpResponseRedirect("/base/env/")
     prj_list = Project.objects.all()
     return render(request, "base/env/add.html", {"prj_list": prj_list})
+
+
 # 测试环境更新
 def env_update(request):
     if request.method == 'POST':
@@ -114,10 +122,11 @@ def env_update(request):
         url = request.POST['url']
         private_key = request.POST['private_key']
         description = request.POST['description']
-        Environment.objects.filter(env_id=env_id).update(env_name=env_name, url=url, project=project, private_key=private_key, description=description)
+        Environment.objects.filter(env_id=env_id).update(env_name=env_name, url=url, project=project,
+                                                         private_key=private_key, description=description)
         return HttpResponseRedirect("/base/env/")
     env_id = request.GET['env_id']
-    env =Environment.objects.get(env_id=env_id)
+    env = Environment.objects.get(env_id=env_id)
     prj_list = Project.objects.all()
     return render(request, "base/env/update.html", {"env": env, "prj_list": prj_list})
 
@@ -126,6 +135,7 @@ def env_update(request):
 def interface_index(request):
     if_list = Interface.objects.all()
     return render(request, "base/interface/index.html", {"if_list": if_list})
+
 
 def interface_add(request):
     if request.method == 'POST':
@@ -142,18 +152,20 @@ def interface_add(request):
         response_header_data = request.POST['response_header_data']
         response_body_data = request.POST['response_body_data']
         interface = Interface(if_name=if_name, url=url, project=project, method=method, data_type=data_type,
-                          is_sign=is_sign, description=description, request_header_param=request_header_data,
-                          request_body_param=request_body_data, response_header_param=response_header_data,
-                          response_body_param=response_body_data)
+                              is_sign=is_sign, description=description, request_header_param=request_header_data,
+                              request_body_param=request_body_data, response_header_param=response_header_data,
+                              response_body_param=response_body_data)
         interface.save()
         return HttpResponseRedirect("/base/interface/")
     prj_list = Project.objects.all()
     return render(request, "base/interface/add.html", {"prj_list": prj_list})
 
+
 # 接口增删改查
 def case_index(request):
     case_list = Case.objects.all()
     return render(request, "base/case/index.html", {"case_list": case_list})
+
 
 def case_add(request):
     if request.method == 'POST':
@@ -167,6 +179,7 @@ def case_add(request):
         return HttpResponseRedirect("/base/case/")
     prj_list = Project.objects.all()
     return render(request, "base/case/add.html", {"prj_list": prj_list})
+
 
 def case_run(request):
     if request.method == 'POST':
@@ -182,6 +195,7 @@ def plan_index(request):
     plan_list = Plan.objects.all()
     return render(request, "base/plan/index.html", {"plan_list": plan_list})
 
+
 def plan_add(request):
     if request.method == 'POST':
         plan_name = request.POST['plan_name']
@@ -191,11 +205,13 @@ def plan_add(request):
         environment = Environment.objects.get(env_id=env_id)
         description = request.POST['description']
         content = request.POST.getlist("case_id")
-        plan = Plan(plan_name=plan_name, project=project, environment=environment, description=description, content=content)
+        plan = Plan(plan_name=plan_name, project=project, environment=environment, description=description,
+                    content=content)
         plan.save()
         return HttpResponseRedirect("/base/plan/")
     prj_list = Project.objects.all()
     return render(request, "base/plan/add.html", {"prj_list": prj_list})
+
 
 def plan_run(request):
     if request.method == 'POST':
