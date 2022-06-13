@@ -1,8 +1,7 @@
-import im30.pay_verify
 import json
-from im30.util import decimal_two
+from utils import decimal_two
 import jsonpickle
-from im30 import session
+from utils import session
 
 tax_rate_config = {
     'VN': 0.1,

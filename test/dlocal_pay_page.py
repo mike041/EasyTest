@@ -7,7 +7,7 @@
 @time: 2022.05.16
 """
 import requests
-import xlrd
+import xlwings as XW
 
 li = [
     {'pay_type': 'CARD', 'country': 'BR'},
@@ -18,6 +18,7 @@ li = [
 
 def parse_excel():
     path = 'E:\config.xls'
+
     data = xlrd.open_workbook(path)
     sheet = data.sheet_by_name('Sheet1')
     rows = list(sheet.get_rows())[1:]

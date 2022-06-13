@@ -19,7 +19,7 @@ from base.views import *
 from base.xsolla import *
 
 urlpatterns = [
-    path(r'xsolla/', xsolla),
+    path(r'xsolla/', mode),
     path(r'project/', project_index),
     path(r'project_add/', project_add),
     path(r'project_update/', project_update),
