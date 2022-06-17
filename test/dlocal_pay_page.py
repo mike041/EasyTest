@@ -7,6 +7,7 @@
 @time: 2022.05.16
 """
 import requests
+import xlrd as xlrd
 import xlwings as XW
 
 li = [
@@ -81,8 +82,6 @@ def pay_page(row):
         print('state')
     if not zipcode == address['zipcode']:
         print('zipcode')
-
-
 
     print("==================================================================")
 

@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from xsolla.views import index
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', index),
+    path('', index),
     path(r'base/', include("base.urls")),
 ]

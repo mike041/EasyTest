@@ -2,6 +2,8 @@
 # coding:utf-8
 __author__ = 'wsy'
 
+import logging
+
 from base.models import Project, Sign, Environment, Interface, Case
 import requests
 import hashlib
