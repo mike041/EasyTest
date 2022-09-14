@@ -1024,7 +1024,7 @@ support = Sizzle.support = {};
  * @returns {Boolean} True iff elem is a non-HTML XML node
  */
 isXML = Sizzle.isXML = function( elem ) {
-	// documentElement is verified for cases where it doesn't yet exist
+	// documentElement is verified for test_cases where it doesn't yet exist
 	// (such as loading iframes in IE - #4833)
 	var documentElement = elem && (elem.ownerDocument || elem).documentElement;
 	return documentElement ? documentElement.nodeName !== "HTML" : false;
@@ -1088,7 +1088,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Support: IE<10
 	// Check if getElementById returns elements by name
 	// The broken getElementById methods don't pick up programatically-set names,
-	// so use a roundabout getElementsByName test
+	// so use a roundabout getElementsByName demo
 	support.getById = assert(function( div ) {
 		docElem.appendChild( div ).id = expando;
 		return !document.getElementsByName || !document.getElementsByName( expando ).length;
@@ -1182,7 +1182,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		// Regex strategy adopted from Diego Perini
 		assert(function( div ) {
 			// Select is set to empty string on purpose
-			// This is to test IE's treatment of not explicitly
+			// This is to demo IE's treatment of not explicitly
 			// setting a boolean content attribute,
 			// since its presence should be enough
 			// http://bugs.jquery.com/ticket/12359
@@ -1192,7 +1192,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 			// Support: IE8, Opera 11-12.16
 			// Nothing should be selected when empty strings follow ^= or $= or *=
-			// The test attribute must be unknown in Opera but "safe" for WinRT
+			// The demo attribute must be unknown in Opera but "safe" for WinRT
 			// http://msdn.microsoft.com/en-us/library/ie/hh465388.aspx#attribute_section
 			if ( div.querySelectorAll("[msallowcapture^='']").length ) {
 				rbuggyQSA.push( "[*^$]=" + whitespace + "*(?:''|\"\")" );
@@ -3557,7 +3557,7 @@ jQuery.ready.promise = function( obj ) {
 
 		readyList = jQuery.Deferred();
 
-		// Catch cases where $(document).ready() is called
+		// Catch test_cases where $(document).ready() is called
 		// after the browser event has already occurred.
 		// Support: IE9-10 only
 		// Older IE sometimes signals "interactive" too soon
@@ -3751,7 +3751,7 @@ Data.prototype = {
 	access: function( owner, key, value ) {
 		var stored;
 
-		// In cases where either:
+		// In test_cases where either:
 		//
 		//   1. No key was specified
 		//   2. A string key was specified, but no value provided
@@ -5730,9 +5730,9 @@ var documentElement = document.documentElement;
 	jQuery.extend( support, {
 		pixelPosition: function() {
 
-			// This test is executed only once but we still do memoizing
+			// This demo is executed only once but we still do memoizing
 			// since we can use the boxSizingReliable pre-computing.
-			// No need to check if the test was already performed, though.
+			// No need to check if the demo was already performed, though.
 			computeStyleTests();
 			return pixelPositionVal;
 		},
@@ -5855,7 +5855,7 @@ function addGetHookIf( conditionFn, hookFn ) {
 				return;
 			}
 
-			// Hook needed; redefine it so that the support test is not executed again.
+			// Hook needed; redefine it so that the support demo is not executed again.
 			return ( this.get = hookFn ).apply( this, arguments );
 		}
 	};
@@ -7560,10 +7560,10 @@ jQuery.fn.extend( {
 
 				return typeof ret === "string" ?
 
-					// Handle most common string cases
+					// Handle most common string test_cases
 					ret.replace( rreturn, "" ) :
 
-					// Handle cases where value is null/undef or number
+					// Handle test_cases where value is null/undef or number
 					ret == null ? "" : ret;
 			}
 
@@ -9616,13 +9616,13 @@ jQuery.fn.extend( {
 		};
 	},
 
-	// This method will return documentElement in the following cases:
+	// This method will return documentElement in the following test_cases:
 	// 1) For the element inside the iframe without offsetParent, this method will return
 	//    documentElement of the parent window
 	// 2) For the hidden or detached element
 	// 3) For body or html element, i.e. in case of the html node - it will return itself
 	//
-	// but those exceptions were never presented as a real life use-cases
+	// but those exceptions were never presented as a real life use-test_cases
 	// and might be considered as more preferable results.
 	//
 	// This logic, however, is not guaranteed and can change at any point in the future

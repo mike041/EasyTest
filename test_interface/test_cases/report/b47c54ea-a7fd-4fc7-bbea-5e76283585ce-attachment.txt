@@ -1,0 +1,3 @@
+INFO     root:conftest.py:31 test_2
+INFO     root:__init__.py:17 ============path:./2
+INFO     root:test_demo.py:37 [<test_interface.utils.Req object at 0x00000172EB154FD0>, <test_interface.utils.Req object at 0x00000172EB154FD0>]

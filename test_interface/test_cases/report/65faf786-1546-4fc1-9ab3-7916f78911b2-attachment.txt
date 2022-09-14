@@ -1,0 +1,1 @@
+INFO     root:conftest.py:22 test_2

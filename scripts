@@ -1,0 +1,7 @@
+#生成测试报告
+allure generate D:\pythonProject\EasyTest\report -o  D:\pythonProject\EasyTest\html --clean
+
+
+#退出虚拟机
+deactivate
+

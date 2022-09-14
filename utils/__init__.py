@@ -11,23 +11,84 @@ import re
 from decimal import Decimal
 
 import requests
-import xlwings as xlwings
+import xlrd
+import xlwings
 
-from requests import Session
-
-from utils.interface_config import domin, merchant_id, merchant_name, merchant_password
+from utils.session import MerchantSess, MallSess
 
 
-def my_sql():
-    from django.db import connection
-    cursor = connection.cursor()
-    # 执行sql语句
-    cursor.execute("SELECT tax_rate FROM xsolla_canada_tax")
-    # 查出一条数据
-    row = cursor.fetchall()
-    print(row)
-    # 查出所有数据
-    # row = cursor.fetchall()
+# 在response中提取参数, 并放到列表中
+def get_extract(extract_dict, res):
+    for key, value in extract_dict.items():
+        key_value = get_param(key, res)
+        extract_dict[key] = key_value
+
+
+# 替换内容中的变量, 返回字符串型
+def replace_var(content, var_name, var_value):
+    if not isinstance(content, str):
+        content = json.dumps(content)
+    var_name = "$" + var_name
+    content = content.replace(str(var_name), str(var_value))
+    return content
+
+
+# 从内容中提取所有变量名, 变量格式为$variable,返回变量名list
+def extract_variables(content):
+    variable_regexp = r"\$([\w_]+)"
+    if not isinstance(content, str):
+        content = str(content)
+    try:
+        return re.findall(variable_regexp, content)
+    except TypeError:
+        return []
+
+
+# 在内容中获取某一参数的值
+def get_param(param, content):
+    param_val = None
+    if isinstance(content, str):
+        # content = json.loads(content)
+        try:
+            content = json.loads(content)
+        except:
+            content = ""
+    if isinstance(content, dict):
+        param_val = get_param_reponse(param, content)
+    if isinstance(content, list):
+        dict_data = {}
+        for i in range(len(content)):
+            try:
+                dict_data[str(i)] = eval(content[i])
+            except:
+                dict_data[str(i)] = content[i]
+        param_val = get_param_reponse(param, dict_data)
+    if param_val is None:
+        return param_val
+    else:
+        if "$" + param == param_val:
+            param_val = None
+        return param_val
+
+
+def get_param_reponse(param_name, dict_data, default=None):
+    for k, v in dict_data.items():
+        if k == param_name:
+            return v
+        else:
+            if isinstance(v, dict):
+                ret = get_param_reponse(param_name, v)
+                if ret is not default:
+                    return ret
+            if isinstance(v, list):
+                for i in v:
+                    if isinstance(i, dict):
+                        ret = get_param_reponse(param_name, i)
+                        if ret is not default:
+                            return ret
+                    else:
+                        pass
+    return default
 
 
 # 获取国家缩写表并保存
@@ -62,34 +123,12 @@ def json_parse(js: dict, key: str = None):
     return _js
 
 
-class Sess:
-    def __init__(self):
-        self.sess = Session()
-        url = domin + "/api/v1/merchant/user/login"
+def parse_excel(path, sheet_index_name=0):
+    data = xlrd.open_workbook(path)
 
-        payload = {"email": merchant_name, "password": merchant_password, "rememberMe": False}
-        headers = {
-            'Accept': 'application/json, text/plain, */*',
-            'Accept-Language': 'zh-CN,zh;q=0.9',
-            'Connection': 'keep-alive',
-            'Content-Type': 'application/json',
-            'Origin': domin,
-            'Referer': domin + '/login',
-            'Sec-Fetch-Dest': 'empty',
-            'Sec-Fetch-Mode': 'cors',
-            'Sec-Fetch-Site': 'same-origin',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="100", "Google Chrome";v="100"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"'
-        }
-
-        response = self.sess.request("POST", url, headers=headers, data=json.dumps(payload))
-        js = response.json()
-        if js['code'] == 1:
-            authorization = response.headers['Authorization']
-            self.sess.headers['Authorization'] = authorization
-            self.sess.headers['Cookie'] = 'im30-pay-token=' + authorization
-
-
-session = Sess().sess
+    if isinstance(sheet_index_name, int):
+        sheet = data.sheet_by_index(sheet_index_name)
+    else:
+        sheet = data.sheet_by_name(sheet_index_name)
+    rows = list(sheet.get_rows())[1:]
+    return rows

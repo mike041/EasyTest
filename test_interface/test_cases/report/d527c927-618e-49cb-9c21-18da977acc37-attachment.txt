@@ -1,0 +1,2 @@
+INFO     root:test_demo.py:43 <test_interface.utils.Req object at 0x000001E584F437F0>
+INFO     root:conftest.py:21 setup<test_interface.utils.Req object at 0x000001E584F437F0>

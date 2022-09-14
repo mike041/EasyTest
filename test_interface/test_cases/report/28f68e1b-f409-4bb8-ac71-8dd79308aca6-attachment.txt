@@ -1,0 +1,7 @@
+INFO     root:conftest.py:35 test_2
+INFO     root:conftest.py:36 <_pytest.config.Config object at 0x000002E6FE6B8C10>
+INFO     root:conftest.py:37 <Function test_2[1]>
+INFO     root:conftest.py:38 None
+INFO     root:conftest.py:39 None
+INFO     root:conftest.py:40 <module 'test_interface.test_cases.test_demo' from 'D:\\pythonProject\\EasyTest\\test_interface\\test_cases\\test_demo.py'>
+INFO     root:conftest.py:41 D:\pythonProject\EasyTest\test_interface\test_cases\test_demo.py
