@@ -8,8 +8,8 @@
 """
 import json
 
+import allure
 import requests
-
 
 def test_noGoodsNo_cancelSell(token):
     url = "https://lsaccount.im30.net/api/v1/cancelSell"

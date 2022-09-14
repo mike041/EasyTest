@@ -8,10 +8,7 @@ ENV LC_ALL en_US.UTF-8
 
 COPY pip.conf /root/.pip/pip.conf
 
-RUN mkdir -p /usr/bin/EasyTest
 
+ADD . /usr/bin/EasyTest/
 WORKDIR /usr/bin/EasyTest
-
-ADD . /usr/bin/EasyTest
-
 RUN pip install -r requirements.txt
